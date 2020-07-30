@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from "./routes";
-import zhCN from "antd/es/locale/zh_CN";
+import { ConfigProvider } from "antd"
+import 'antd/dist/antd.css';
+import zhCN from 'antd/es/locale/zh_CN';
 import * as serviceWorker from './serviceWorker';
 // import './utils/rem.js'
 // import '@/assets/styles/common.scss'
