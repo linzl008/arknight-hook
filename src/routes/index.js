@@ -1,14 +1,12 @@
 import React from 'react';
 import { HashRouter, Switch, Route } from "react-router-dom";
-import AnimatedSwitch from "@/components/common/AnimatedSwitch"
-const Layout =
-
+import loadable from "../utils/loadable";
+const Layout = loadable(() => import("../pages/layout"));
 export default function Routes() {
     return (
         <HashRouter>
-            <AnimatedSwitch ></AnimatedSwitch>
             <Switch>
-                <Route path="/" component={Layout} />
+                <Route path="/"  component={Layout} />
             </Switch>
         </HashRouter>
     );

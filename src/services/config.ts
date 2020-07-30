@@ -27,10 +27,9 @@ fly.interceptors.request.use((request:any) => {
 })
 fly.interceptors.response.use(
     response => {
-        return Promise.reject(response);
+        return Promise.resolve(response.data);
     },
     (err: any) => {
-
         let now = new Date().getTime()
         if(now - messageSendTime > 3000){
             console.log(err);
