@@ -13,12 +13,18 @@ export const getArkCharacters = (params: any) => fly.post( "/ark/characters/ajax
     }
 }).then((res:any)=> JSON.parse(res))
 
+export const savePic = ( url: string, params: any) => fly.get(url, params, {
+    responseType:"arraybuffer",
+}).then((res:any)=>{
+    console.log(res);
+})
+
 export const getAllArkCharacters = async() => {
     let list:Character[] = []
     let params = {
         name: "",
         pn: 1,
-        ps: 16
+        ps: 160
     }
     async function getData(){
         let res:any = await getArkCharacters(params)

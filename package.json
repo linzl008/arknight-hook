@@ -87,7 +87,8 @@
     "start": "cross-env REACT_APP_SECRET_API=development react-app-rewired start",
     "build": "cross-env REACT_APP_SECRET_API=production react-app-rewired build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "download": "node ./node_tool/download.js"
   },
   "eslintConfig": {
     "extends": "react-app"

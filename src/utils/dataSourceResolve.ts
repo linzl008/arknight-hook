@@ -6,8 +6,10 @@ import {Character} from "@/interface";
  */
 export function resolveCharacterPic(list: Character[]) {
     return list.map((item:Character)=>{
-        item.card_a = "https://www.diopoo.com/ark/media/character/card/" + item.card_a
-        item.card_b = "https://www.diopoo.com/ark/media/character/card/" + item.card_b
+        // let baseUrl = "https://www.diopoo.com"
+        let baseUrl = ""
+        // item.card_a = baseUrl + "/ark/media/character/card/" + item.card_a
+        // item.card_b = baseUrl + "/ark/media/character/card/" + item.card_b
         return item
     })
 }

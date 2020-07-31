@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+node_tool/node_modules
+
 
 # testing
 /coverage
@@ -22,3 +24,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea
+
+
+node_tool/resource 
+src/assets/characters
