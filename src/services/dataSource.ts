@@ -4,7 +4,7 @@ import {Character} from "@/interface";
 import {resolveCharacterPic} from "@/utils/dataSourceResolve";
 
 /**
- * 获取角色页，params 是假的。。
+ * 获取角色页
  * @param params
  */
 export const getArkCharacters = (params: any) => fly.post( "/ark/characters/ajax",params,{
@@ -20,6 +20,11 @@ export const savePic = ( url: string, params: any) => fly.get(url, params, {
 })
 
 export const getAllArkCharacters = async() => {
+    let path = require("../assets/data/characters.json")
+    console.log({path});
+    if(path){
+        return Promise.resolve(resolveCharacterPic(path))
+    }
     let list:Character[] = []
     let params = {
         name: "",
@@ -30,7 +35,7 @@ export const getAllArkCharacters = async() => {
         let res:any = await getArkCharacters(params)
         return res
     }
-     while(true){
+    while(true){
        let res = await getData()
        if(res.data.length === 0){
            break

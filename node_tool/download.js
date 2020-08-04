@@ -110,12 +110,15 @@ function readCharacterFile(){
 async function startTask(){
     let list = await readCharacterFile()
     console.log(list.length);
-    for (let i = 0; i < list.length; i++) {
+    for (let i = 0; i < 4; i++) {
+    // for (let i = 0; i < list.length; i++) {
         const data = list[i];
         let baseUrl = "https://www.diopoo.com/ark/media/character/card/"
         console.log(baseUrl + data.card_a);
         let resA = await savePic(baseUrl + data.card_a,data.card_a)
-        let resB = await savePic(baseUrl + data.card_b,data.card_b)
+        if(data.card_b){
+            let resB = await savePic(baseUrl + data.card_b,data.card_b)
+        }
     }
 }
 startTask()

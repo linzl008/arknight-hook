@@ -56,6 +56,9 @@ const CharacterCom = (props:any) => {
         checkResize()
     }
     function addLight(){
+        //如果是调试状态，还可以把灯光的调试帮助框显示出来
+        // @ts-ignore
+        THREE.Light.shadowCameraVisible= true;
         //点光源
        /* let point = new THREE.PointLight(0xffffff);
         point.position.set(0, 0, 0); //点光源位置
@@ -89,21 +92,22 @@ const CharacterCom = (props:any) => {
         // for (let i = 0; i < 16; i++) {
         //     drawCard( 22.5*i )
         // }
-        const LEVELNUMBER = 16
         getAllArkCharacters().then((res:any)=>{
-            console.log({res});
             setCharacterList(res)
-            for (let i = 0; i < res.length; i++) {
-                const re = res[i];
-                try{
-                    drawCard(re, (360 / LEVELNUMBER ) * ( i % LEVELNUMBER), Math.floor(i/LEVELNUMBER))
-                }catch (e) {
-                    console.log(e);
-                }
-            }
+            renderCard(res)
         })
     }
-
+    function renderCard(list: Character[]) {
+        const LEVELNUMBER = 16
+        for (let i = 0; i < list.length; i++) {
+            const re = list[i];
+            try{
+                drawCard(re, (360 / LEVELNUMBER ) * ( i % LEVELNUMBER), Math.floor(i/LEVELNUMBER))
+            }catch (e) {
+                // console.log(e);
+            }
+        }
+    }
     function checkResize() {
         window.onresize=function(){
             // 重置渲染器输出画布canvas尺寸
@@ -114,6 +118,7 @@ const CharacterCom = (props:any) => {
             // 但是不会每渲染一帧，就通过相机的属性计算投影矩阵(节约计算资源)
             // 如果相机的一些属性发生了变化，需要执行updateProjectionMatrix ()方法更新相机的投影矩阵
             camera.updateProjectionMatrix ();
+            renderCard(characterList)
         };
     }
     function animate ()  {
@@ -132,33 +137,46 @@ const CharacterCom = (props:any) => {
         angle = level * 10 + angle
         // var texture_2 = new THREE.TextureLoader().load(require("../../../assets/images/158B.png"));
         // var texture_2 = new THREE.TextureLoader().load(require("../../../assets/images/158B.png"));
-        console.log(require("../../../assets/characters/images/"+character.card_a));
-        console.log(require("../../../assets/characters/images/"+character.card_b));
-        var texture_1 = new THREE.TextureLoader().load(require("../../../assets/characters/images/"+character.card_a));
-        var texture_2 = new THREE.TextureLoader().load(require("../../../assets/characters/images/"+character.card_b));
-        let material_1 = new THREE.MeshPhongMaterial({
-            map: texture_1,
-            transparent: true,
-        });
-        let material_2 = new THREE.MeshPhongMaterial({
-            map: texture_2,
-            color: 0x333333,
-            transparent: true,
-        });
-        let material = new THREE.MeshPhongMaterial({
-            transparent: true,
-            color: 0x00000000
-        });
-        // texture_1.needsUpdate = true;
-        // texture_2.needsUpdate = true;
-        const geometry = new THREE.BoxGeometry( 25, 50, 1);//绘制一个立方体，擦书相当于定点位置 （three自带的对象）
-        let card = new THREE.Mesh(geometry, [ material, material,material ,material,material_1 ,material_2]);//起始点不闭合
-        let angelPI = Math.PI * angle / 180
-        card.translateX(200 * Math.sin(angelPI))
-        card.translateZ(200 * Math.cos(angelPI))
-        card.rotateY(angelPI);//可以旋转圆弧线
-        card.translateY(level*50)
-        scene.add(card);
+        // console.log(require("../../../assets/characters/images/"+character.card_a));
+        // console.log(require("../../../assets/characters/images/"+character.card_b));
+        var texture_1, texture_2;
+        try{
+            texture_1 = new THREE.TextureLoader().load(require("../../../assets/characters/images/"+character.card_a));
+            //存在没有精二的干员
+            if(character.card_b){
+                texture_2 = new THREE.TextureLoader().load(require("../../../assets/characters/images/"+character.card_b));
+            }else{
+                texture_2 = texture_1
+            }
+            // console.log(texture_1,texture_2);
+            let material_1 = new THREE.MeshPhongMaterial({
+                map: texture_1,
+                transparent: true,
+                color:0xffffff
+            });
+            let material_2 = new THREE.MeshPhongMaterial({
+                map: texture_2,
+                color: 0x333333,
+                transparent: true,
+            });
+            let material = new THREE.MeshPhongMaterial({
+                transparent: true,
+                color: 0xffffff
+            });
+            // texture_1.needsUpdate = true;
+            // texture_2.needsUpdate = true;
+            const geometry = new THREE.BoxGeometry( 25, 50, 1);//绘制一个立方体，擦书相当于定点位置 （three自带的对象）
+            let card = new THREE.Mesh(geometry, [ material, material,material ,material,material_1 ,material_2]);//起始点不闭合
+            let angelPI = Math.PI * angle / 180
+            card.translateX(200 * Math.sin(angelPI))
+            card.translateZ(200 * Math.cos(angelPI))
+            card.rotateY(angelPI);//可以旋转圆弧线
+            card.translateY(level*50)
+            scene.add(card);
+        }catch (e) {
+            console.log("err:",character );
+        }
+
     }
     return (
          <div className="three" ref={threeDomRef} />

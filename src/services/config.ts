@@ -4,7 +4,7 @@ import { createHashHistory } from 'history';
 import { message } from "antd";
 // 哈希模式的跳转 forceRefresh 重新加载页面 const history = createHashHistory({ forceRefresh: true });
 const history = createHashHistory();
-fly.config.timeout = 10000;
+fly.config.timeout = 60000;
 
 let onLine = true;
 let timeout: any;
