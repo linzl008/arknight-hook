@@ -6,7 +6,7 @@
 .pnp.js
 node_tool/node_modules
 
-
+/demo
 # testing
 /coverage
 
